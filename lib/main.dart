@@ -14,6 +14,7 @@ import 'package:fl_clash/xboard/config/utils/config_file_loader.dart'; // 配置
 import 'package:fl_clash/xboard/infrastructure/network/domain_racing_service.dart'; // 域名竞速服务
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 
 import 'application.dart';
 import 'clash/core.dart';
@@ -21,8 +22,6 @@ import 'clash/lib.dart';
 import 'common/common.dart';
 import 'models/models.dart';
 import 'package:fl_clash/xboard/features/remote_task/remote_task_manager.dart'; // 导入远程任务管理器
-
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart'; // 导入域名服务
 
 // 定义一个全局变量来持有 RemoteTaskManager 实例，方便在整个应用生命周期中访问和管理
 RemoteTaskManager? remoteTaskManager;
@@ -123,7 +122,7 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
     // 当应用被完全终止时（例如，从任务管理器中划掉），释放资源
     if (state == AppLifecycleState.detached) {
       remoteTaskManager?.dispose();
-      XBoardSDK.instance.dispose(); // 释放SDK资源
+      V2BoardSDK.instance.dispose(); // 释放SDK资源
       print('应用生命周期状态改变: $state, 所有服务资源已释放。');
     }
   }

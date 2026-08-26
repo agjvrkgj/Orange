@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 import 'package:fl_clash/xboard/config/xboard_config.dart';
 import 'package:fl_clash/xboard/infrastructure/http/user_agent_config.dart';
 import 'package:fl_clash/xboard/core/core.dart';
@@ -9,7 +9,7 @@ part 'generated/sdk_provider.g.dart';
 
 final _logger = FileLogger('sdk_provider');
 
-/// XBoard SDK Provider
+/// V2Board SDK Provider
 /// 
 /// 负责SDK的初始化和生命周期管理
 /// - 等待 InitializationProvider 完成域名检查
@@ -19,7 +19,7 @@ final _logger = FileLogger('sdk_provider');
 /// 
 /// 注意：不要直接调用此 Provider，应该通过 InitializationProvider.initialize() 触发初始化
 @Riverpod(keepAlive: true)
-Future<XBoardSDK> xboardSdk(Ref ref) async {
+Future<V2BoardSDK> xboardSdk(Ref ref) async {
   try {
     _logger.info('[XBoardSdkProvider] 开始初始化SDK');
     
@@ -44,13 +44,11 @@ Future<XBoardSDK> xboardSdk(Ref ref) async {
     
     _logger.info('[XBoardSdkProvider] 使用域名: $fastestUrl');
     
-    // 2. 获取面板类型（通过provider接口）
-    final panelType = XBoardConfig.provider.getPanelType();
-    if (panelType.isEmpty) {
-      throw Exception('无法获取面板类型，请检查配置');
-    }
-    
-    _logger.info('[XBoardSdkProvider] 面板类型: $panelType');
+    // 2. Orange now targets wyx2685/v2board exclusively. Do not allow an
+    // outdated remote OSS config to switch the authentication contract back
+    // to XBoard.
+    const panelType = 'v2board';
+    _logger.info('[XBoardSdkProvider] 面板类型: $panelType (fixed)');
     
     // 3. 根据竞速结果决定是否使用代理
     String? proxyUrl;
@@ -68,7 +66,7 @@ Future<XBoardSDK> xboardSdk(Ref ref) async {
     _logger.info('[XBoardSdkProvider] HTTP配置加载完成');
     
     // 5. 初始化SDK
-    final sdk = XBoardSDK.instance;
+    final sdk = V2BoardSDK.instance;
     await sdk.initialize(
       fastestUrl,
       panelType: panelType,

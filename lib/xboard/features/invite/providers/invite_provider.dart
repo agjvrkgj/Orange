@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_clash/xboard/core/core.dart';
 import 'package:fl_clash/xboard/domain/domain.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 import 'package:fl_clash/xboard/adapter/state/invite_state.dart';
 import 'package:fl_clash/xboard/adapter/state/user_state.dart';
 
@@ -179,8 +179,8 @@ class InviteNotifier extends Notifier<InviteState> {
     try {
       _logger.info('生成邀请码...');
       _logger.info('生成邀请码...');
-      final codeString = await XBoardSDK.instance.invite.generateInviteCode();
-      
+      final codeString = await V2BoardSDK.instance.invite.generateInviteCode();
+
       // SDK returns String, we need to wrap it or reload data
       // Assuming generateInviteCode returns the code string
       // But DomainInviteCode is an object.
@@ -221,7 +221,7 @@ class InviteNotifier extends Notifier<InviteState> {
         throw Exception('可提现金额不足');
       }
 
-      final success = await XBoardSDK.instance.invite.withdrawCommission(
+      final success = await V2BoardSDK.instance.invite.withdrawCommission(
         amount: availableAmount,
         method: withdrawMethod,
         params: {'account': withdrawAccount},
@@ -254,8 +254,9 @@ class InviteNotifier extends Notifier<InviteState> {
     
     try {
       _logger.info('划转佣金到钱包: ¥$amount');
-      final success = await XBoardSDK.instance.invite.transferCommissionToBalance(amount);
-      
+      final success = await V2BoardSDK.instance.invite
+          .transferCommissionToBalance(amount);
+
       if (!success) {
         throw Exception('划转失败');
       }
@@ -341,8 +342,8 @@ DomainUser _mapUser(UserModel user) {
     transferLimit: user.transferEnable.toInt(),
     uploadedBytes: 0,
     downloadedBytes: 0,
-    balanceInCents: (user.balance * 100).toInt(),
-    commissionBalanceInCents: (user.commissionBalance * 100).toInt(),
+    balanceInCents: user.balance.round(),
+    commissionBalanceInCents: user.commissionBalance.round(),
     expiredAt: user.expiredAt,
     lastLoginAt: user.lastLoginAt,
     createdAt: user.createdAt,

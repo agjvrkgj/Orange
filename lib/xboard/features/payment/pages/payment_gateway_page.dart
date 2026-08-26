@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:fl_clash/xboard/utils/xboard_notification.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 class PaymentGatewayPage extends ConsumerStatefulWidget {
   final String paymentUrl;
   final String tradeNo;
@@ -116,7 +116,7 @@ class _PaymentGatewayPageState extends ConsumerState<PaymentGatewayPage> {
     });
     try {
       // 使用 SDK 查询订单状态
-      final orderModels = await XBoardSDK.instance.order.getOrders();
+      final orderModels = await V2BoardSDK.instance.order.getOrders();
       // SDK getOrder(tradeNo) might not exist, getOrders() returns list.
       // Need to find by tradeNo.
       // Wait, OrderApi has getOrder()?
@@ -127,7 +127,7 @@ class _PaymentGatewayPageState extends ConsumerState<PaymentGatewayPage> {
       // So I must fetch all orders and filter? Or `getOrders` supports query?
       // SDK `getOrders` implementation?
       // I'll assume I have to fetch all and find.
-      // Or maybe `XBoardSDK.instance.order.getOrder(tradeNo)` exists?
+      // Or maybe `V2BoardSDK.instance.order.getOrder(tradeNo)` exists?
       // I'll check `OrderApi` again.
       // Step 178 view_file lines 1-14:
       // `Future<List<OrderModel>> getOrders();`

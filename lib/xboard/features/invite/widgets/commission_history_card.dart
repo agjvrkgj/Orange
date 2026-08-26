@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/xboard/features/invite/providers/invite_provider.dart';
-import 'package:fl_clash/xboard/features/invite/dialogs/withdraw_dialog.dart';
 import 'package:fl_clash/xboard/features/invite/dialogs/commission_history_dialog.dart';
 
 class CommissionHistoryCard extends ConsumerWidget {
@@ -19,23 +18,12 @@ class CommissionHistoryCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  appLocalizations.commissionHistory,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (inviteState.totalCommission > 0)
-                  TextButton.icon(
-                    onPressed: () => _showWithdrawDialog(context),
-                    icon: const Icon(Icons.payment),
-                    label: Text(appLocalizations.withdraw),
-                  ),
-              ],
+            Text(
+              appLocalizations.commissionHistory,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 16),
             if (inviteState.commissionHistory.isEmpty)
@@ -144,13 +132,6 @@ class CommissionHistoryCard extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
-
-  void _showWithdrawDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const WithdrawDialog(),
     );
   }
 

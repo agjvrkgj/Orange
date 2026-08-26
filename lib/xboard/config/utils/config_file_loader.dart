@@ -8,7 +8,7 @@ final _logger = FileLogger('config_file_loader.dart');
 
 /// 配置文件加载器
 /// 
-/// 从 assets/config/xboard.config.yaml 加载 XBoard 配置
+/// 从兼容路径 assets/config/xboard.config.yaml 加载 V2Board 配置
 class ConfigFileLoader {
   /// 配置文件路径
   static const String configPath = 'assets/config/xboard.config.yaml';
@@ -119,7 +119,7 @@ class ConfigFileLoader {
     return LogSettings(
       enabled: json['enabled'] as bool? ?? true,
       level: json['level'] as String? ?? 'info',
-      prefix: json['prefix'] as String? ?? '[XBoard]',
+      prefix: json['prefix'] as String? ?? '[V2Board]',
     );
   }
   
@@ -291,4 +291,3 @@ extension ConfigFileLoaderHelper on ConfigFileLoader {
     }
   }
 }
-

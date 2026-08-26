@@ -3,7 +3,7 @@ import 'package:fl_clash/xboard/features/auth/auth.dart';
 import 'package:fl_clash/xboard/features/auth/providers/xboard_user_provider.dart';
 import 'package:fl_clash/xboard/core/core.dart';
 import 'package:fl_clash/xboard/domain/domain.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 import 'package:fl_clash/xboard/adapter/state/plan_state.dart';
 
 // 初始化文件级日志器
@@ -131,7 +131,7 @@ DomainPlan _mapPlan(PlanModel plan) {
     id: plan.id,
     name: plan.name,
     groupId: plan.groupId,
-    transferQuota: plan.transferEnable.toInt(),
+    transferQuota: (plan.transferEnable * 1024 * 1024 * 1024).round(),
     description: plan.content,
     tags: plan.tags ?? [],
     speedLimit: plan.speedLimit,

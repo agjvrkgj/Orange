@@ -73,8 +73,8 @@ dependencies:
   web_socket_channel: ^3.0.3
   qr_flutter: ^4.1.0
   socks5_proxy: ^2.1.1
-  flutter_xboard_sdk:
-    path: lib/sdk/flutter_xboard_sdk
+  flutter_v2board_sdk:
+    path: lib/sdk/flutter_v2board_sdk
 dev_dependencies:
   flutter_test:
     sdk: flutter

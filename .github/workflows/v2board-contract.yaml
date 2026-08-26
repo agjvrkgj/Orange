@@ -10,9 +10,14 @@ on:
       - 'pubspec.yaml'
       - 'pubspec.lock'
 
+concurrency:
+  group: v2board-contract-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,11 +30,13 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Get dependencies and generate V2Board SDK
+      - name: Get V2Board SDK dependencies
         working-directory: lib/sdk/flutter_v2board_sdk
-        run: |
-          flutter pub get
-          dart run build_runner build --delete-conflicting-outputs
+        run: flutter pub get
+
+      - name: Generate V2Board SDK
+        working-directory: lib/sdk/flutter_v2board_sdk
+        run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Run V2Board contract tests
         working-directory: lib/sdk/flutter_v2board_sdk

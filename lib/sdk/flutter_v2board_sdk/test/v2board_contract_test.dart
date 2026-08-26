@@ -128,7 +128,6 @@ void main() {
     expect(backend.requestedPaths, isNot(contains('/api/v1/user/comm/fetch')));
   });
 }
-
 class _V2BoardStubServer {
   _V2BoardStubServer._(this._server) {
     _server.listen(_handleRequest);

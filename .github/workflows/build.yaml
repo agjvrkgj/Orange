@@ -177,6 +177,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          flutter-version: '3.32.8'
           cache: true
       
       - name: Use Local Flutter (Self-hosted Windows)
@@ -191,9 +192,9 @@ jobs:
       - name: Get Flutter Dependency
         run: flutter pub get
 
-      - name: Generate SDK Code
+      - name: Generate V2Board SDK
         run: |
-          cd lib/sdk/flutter_xboard_sdk
+          cd lib/sdk/flutter_v2board_sdk
           flutter pub get
           dart run build_runner build --delete-conflicting-outputs
           cd ../../..

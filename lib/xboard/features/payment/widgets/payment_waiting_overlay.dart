@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fl_clash/common/common.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_clash/xboard/core/core.dart';
 import 'package:fl_clash/l10n/l10n.dart';
@@ -118,7 +118,7 @@ class _PaymentWaitingOverlayState extends ConsumerState<PaymentWaitingOverlay>
       _logger.info('[PaymentWaiting] 订单号: $_currentTradeNo');
       
       // 使用 SDK 检查订单状态
-      final orderModels = await XBoardSDK.instance.order.getOrders();
+      final orderModels = await V2BoardSDK.instance.order.getOrders();
       final orderData = orderModels.firstWhere(
         (o) => o.tradeNo == _currentTradeNo,
         orElse: () => const OrderModel(status: -1),

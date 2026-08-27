@@ -7,7 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:fl_clash/xboard/domain/domain.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart' show XBoardSDK, CouponModel;
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart'
+    show V2BoardSDK, CouponModel;
 import 'package:fl_clash/xboard/core/core.dart';
 import 'package:fl_clash/xboard/features/auth/providers/xboard_user_provider.dart';
 import 'package:fl_clash/xboard/features/payment/providers/xboard_payment_provider.dart';
@@ -194,7 +195,7 @@ class _PlanPurchasePageState extends ConsumerState<PlanPurchasePage> {
     try {
       final couponCode = _couponController.text.trim();
       // TODO: 将来添加到 PaymentRepository，目前保留使用 SDK
-      final couponData = await XBoardSDK.instance.order.checkCoupon(
+      final couponData = await V2BoardSDK.instance.order.checkCoupon(
         _couponController.text.trim(),
         widget.plan.id,
       );
@@ -668,4 +669,3 @@ class _PlanPurchasePageState extends ConsumerState<PlanPurchasePage> {
     );
   }
 } 
-

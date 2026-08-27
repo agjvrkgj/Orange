@@ -1,12 +1,11 @@
 import 'package:fl_clash/xboard/features/auth/auth.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 import 'package:fl_clash/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_clash/xboard/utils/xboard_notification.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_clash/xboard/features/shared/shared.dart';
 import 'package:fl_clash/xboard/services/services.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart' show ConfigModel;
 import 'package:go_router/go_router.dart';
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -60,7 +59,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       try {
         // 使用 AuthRepository 注册
         // 使用 SDK 注册
-        final success = await XBoardSDK.instance.auth.register(
+        final success = await V2BoardSDK.instance.auth.register(
           _emailController.text,
           _passwordController.text,
           inviteCode: _inviteCodeController.text.trim().isNotEmpty 
@@ -157,7 +156,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     try {
       // 使用 AuthRepository 发送验证码
       // 使用 SDK 发送验证码
-      await XBoardSDK.instance.auth.sendEmailVerifyCode(_emailController.text);
+      await V2BoardSDK.instance.auth.sendEmailVerifyCode(_emailController.text);
 
       if (mounted) {
         XBoardNotification.showSuccess(appLocalizations.verificationCodeSentCheckEmail);

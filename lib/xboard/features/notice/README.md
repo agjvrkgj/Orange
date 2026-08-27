@@ -155,7 +155,7 @@ XBoard API
 
 ## 📝 数据模型
 
-公告数据通过 XBoard SDK 提供，主要字段：
+公告数据通过 V2Board SDK 提供，主要字段：
 
 ```dart
 class Notice {
@@ -168,7 +168,7 @@ class Notice {
 }
 ```
 
-具体字段定义参考 `flutter_xboard_sdk` 的 `Notice` 模型。
+具体字段定义参考 `flutter_v2board_sdk` 的 `Notice` 模型。
 
 ## 🤝 相关模块
 
@@ -186,4 +186,3 @@ class Notice {
 **维护者**: FlClash Team  
 **最后更新**: 2025-10-15  
 **模块类型**: 数据服务型
-

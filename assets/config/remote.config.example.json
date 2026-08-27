@@ -1,6 +1,6 @@
 {
-    "_comment": "面板类型：xboard 或 v2board。切换此字段即可切换不同面板实现，无需修改代码 v2board 目前正在建设中",
-    "panelType": "xboard",
+    "_comment": "Orange 固定对接 wyx2685/v2board；panelType 保留用于配置兼容性。",
+    "panelType": "v2board",
     "panels": {
         "mihomo": [
             {

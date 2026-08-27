@@ -1,4 +1,4 @@
-# XBoard 配置文件示例
+# V2Board 配置文件示例（保留 xboard 根键和文件名以兼容现有部署）
 # 复制此文件为 xboard.config.yaml 并修改相应配置
 
 xboard:
@@ -40,7 +40,7 @@ xboard:
     prefer_encrypt: false
 
     # 订阅解密密钥
-    # 用于解密加密订阅数据，需要与后端XBoard面板配置一致
+    # 仅在部署了独立加密订阅网关时使用；标准 V2Board 可留空
     # 这是AES-256-CBC加密的密钥，建议使用32位随机字符串
     decrypt_key: your_secret_decrypt_key_here
 
@@ -62,6 +62,5 @@ xboard:
       # 域名竞速测试 UA
       domain_racing_test: FlClash/1.0 (Domain Racing Test)
     
-
 
 

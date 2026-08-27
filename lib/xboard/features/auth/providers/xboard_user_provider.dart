@@ -4,7 +4,8 @@ import 'package:fl_clash/xboard/services/services.dart';
 import 'package:fl_clash/xboard/features/profile/providers/profile_import_provider.dart';
 import 'package:fl_clash/xboard/core/core.dart';
 import 'package:fl_clash/xboard/domain/domain.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart' hide XBoardException;
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart'
+    hide XBoardException;
 import 'package:fl_clash/xboard/adapter/state/user_state.dart';
 import 'package:fl_clash/xboard/adapter/state/subscription_state.dart';
 
@@ -26,12 +27,14 @@ class XBoardUserAuthNotifier extends Notifier<UserAuthState> {
   Future<bool> quickAuth() async {
     try {
       _logger.info('快速认证检查：检查登录状态...');
-      final hasToken = await XBoardSDK.instance.hasToken()
-          .timeout(const Duration(seconds: 5), onTimeout: () {
-        _logger.info('快速认证超时，假设无token');
-        return false;
-      });
-      
+      final hasToken = await V2BoardSDK.instance.hasToken().timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          _logger.info('快速认证超时，假设无token');
+          return false;
+        },
+      );
+
       if (hasToken) {
         String? email;
         DomainUser? userInfo;
@@ -154,7 +157,7 @@ class XBoardUserAuthNotifier extends Notifier<UserAuthState> {
   }
   Future<void> handleTokenExpired() async {
     _logger.info('处理token过期，清除认证状态');
-    await XBoardSDK.instance.logout();
+    await V2BoardSDK.instance.logout();
     state = const UserAuthState(isInitialized: true);
   }
   Future<bool> autoAuth() async {
@@ -164,9 +167,11 @@ class XBoardUserAuthNotifier extends Notifier<UserAuthState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       _logger.info('开始登录: $email');
-      
-      final success = await XBoardSDK.instance.loginWithCredentials(email, password);
-      
+      final success = await V2BoardSDK.instance.loginWithCredentials(
+        email,
+        password,
+      );
+
       if (!success) {
         state = state.copyWith(
           isLoading: false,
@@ -242,8 +247,7 @@ class XBoardUserAuthNotifier extends Notifier<UserAuthState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       _logger.info('开始注册: $email');
-      
-      final success = await XBoardSDK.instance.auth.register(
+      final success = await V2BoardSDK.instance.auth.register(
         email,
         password,
         inviteCode: inviteCode,
@@ -294,8 +298,7 @@ class XBoardUserAuthNotifier extends Notifier<UserAuthState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       _logger.info('重置密码: $email');
-      
-      final success = await XBoardSDK.instance.auth.forgotPassword(
+      final success = await V2BoardSDK.instance.auth.forgotPassword(
         email,
         emailCode,
         password,
@@ -455,8 +458,7 @@ class XBoardUserAuthNotifier extends Notifier<UserAuthState> {
     _logger.info('用户登出');
     
     _logger.info('用户登出');
-    
-    await XBoardSDK.instance.logout();
+    await V2BoardSDK.instance.logout();
     await _storageService.clearAuthData();
     
     state = const UserAuthState(
@@ -487,8 +489,8 @@ DomainUser _mapUser(UserModel user) {
     transferLimit: user.transferEnable.toInt(),
     uploadedBytes: 0,
     downloadedBytes: 0,
-    balanceInCents: (user.balance * 100).toInt(),
-    commissionBalanceInCents: (user.commissionBalance * 100).toInt(),
+    balanceInCents: user.balance.round(),
+    commissionBalanceInCents: user.commissionBalance.round(),
     expiredAt: user.expiredAt,
     lastLoginAt: user.lastLoginAt,
     createdAt: user.createdAt,

@@ -2,7 +2,7 @@ import 'package:fl_clash/xboard/core/core.dart';
 import 'package:fl_clash/xboard/config/core/service_locator.dart';
 import 'package:fl_clash/xboard/config/services/online_support_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 
 // 初始化文件级日志器
 final _logger = FileLogger('service_config.dart');
@@ -38,7 +38,7 @@ class CustomerSupportServiceConfig {
   /// 获取当前用户的认证Token
   static Future<String?> getUserToken() async {
     try {
-      final token = await XBoardSDK.instance.getToken();
+      final token = await V2BoardSDK.instance.getToken();
       _logger.debug('getUserToken() 获取到的token: $token');
       return token;
     } catch (e) {

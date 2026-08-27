@@ -3,7 +3,7 @@ import 'package:fl_clash/xboard/features/auth/auth.dart';
 import 'package:fl_clash/xboard/features/payment/payment.dart';
 import 'package:fl_clash/xboard/core/core.dart';
 import 'package:fl_clash/xboard/domain/domain.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 import 'package:fl_clash/xboard/adapter/state/payment_state.dart';
 
 // 初始化文件级日志器
@@ -72,7 +72,7 @@ class XBoardPaymentNotifier extends Notifier<void> {
     try {
       _logger.info('加载待支付订单...');
       _logger.info('加载待支付订单...');
-      final orderModels = await XBoardSDK.instance.order.getOrders();
+      final orderModels = await V2BoardSDK.instance.order.getOrders();
       final orders = orderModels.map(_mapOrder).toList();
       
       // status: 0=待付款, 1=开通中, 2=已取消, 3=已完成, 4=已折抵
@@ -152,7 +152,7 @@ class XBoardPaymentNotifier extends Notifier<void> {
       await cancelPendingOrders();
 
       // 调用 Repository 创建订单
-      final tradeNo = await XBoardSDK.instance.order.createOrder(
+      final tradeNo = await V2BoardSDK.instance.order.createOrder(
         planId,
         period,
         couponCode: couponCode,
@@ -204,7 +204,7 @@ class XBoardPaymentNotifier extends Notifier<void> {
       _logger.info('提交支付: tradeNo=$tradeNo, method=$method');
 
       // 调用 Repository 提交支付，返回支付结果
-      final paymentResultModel = await XBoardSDK.instance.order.checkoutOrder(
+      final paymentResultModel = await V2BoardSDK.instance.order.checkoutOrder(
         tradeNo,
         method,
       );
@@ -242,7 +242,7 @@ class XBoardPaymentNotifier extends Notifier<void> {
     ref.read(userUIStateProvider.notifier).state = const UIState(isLoading: true);
     try {
       // 获取所有订单并筛选待支付的
-      final orderModels = await XBoardSDK.instance.order.getOrders();
+      final orderModels = await V2BoardSDK.instance.order.getOrders();
       final orders = orderModels.map(_mapOrder).toList();
       // 筛选需要在创建新订单前自动取消的订单（待付款和开通中）
       final ordersToCancel = orders.where((order) => order.shouldAutoCancelBeforeNewOrder).toList();
@@ -251,7 +251,9 @@ class XBoardPaymentNotifier extends Notifier<void> {
       for (final order in ordersToCancel) {
         if (order.tradeNo != null && order.tradeNo!.isNotEmpty) {
           try {
-            final success = await XBoardSDK.instance.order.cancelOrder(order.tradeNo!);
+            final success = await V2BoardSDK.instance.order.cancelOrder(
+              order.tradeNo,
+            );
             if (success) {
               canceledCount++;
             }
@@ -314,22 +316,7 @@ DomainOrder _mapOrder(OrderModel order) {
     tradeNo: order.tradeNo ?? '',
     planId: order.planId ?? 0,
     period: order.period ?? '',
-    totalAmount: (order.totalAmount ?? 0), // SDK might be cents? Check OrderModel.
-    // OrderModel totalAmount is double?
-    // SDK OrderModel: `double? totalAmount`.
-    // If SDK returns Yuan, then no division. If Cents, divide.
-    // Usually SDK returns raw value from API.
-    // Assuming API returns Cents (common in payment).
-    // Wait, DomainOrder expects Yuan (double).
-    // If SDK returns Cents, I divide by 100.
-    // If SDK returns Yuan, I keep it.
-    // I'll assume Cents for now as standard practice, but verify if possible.
-    // Actually, `xboard_user_provider` mapped balance * 100 to cents. So balance was Yuan?
-    // `balanceInCents: (user.balance * 100).toInt()`. So `user.balance` is Yuan.
-    // So `order.totalAmount` is likely Yuan too.
-    // So NO division by 100 if it's already Yuan.
-    // But `DomainOrder` `totalAmount` is double (Yuan).
-    // So `totalAmount: order.totalAmount ?? 0`.
+    totalAmount: order.totalAmount ?? 0,
     status: OrderStatus.fromCode(order.status ?? 0),
     planName: order.orderPlan?.name,
     createdAt: order.createdAt ?? DateTime.now(),

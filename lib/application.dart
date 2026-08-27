@@ -12,11 +12,11 @@ import 'package:fl_clash/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 import 'package:go_router/go_router.dart';
 
 import 'controller.dart';
 import 'xboard/xboard.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart';
 import 'package:fl_clash/xboard/router/app_router.dart' as xboard_router;
 import 'package:fl_clash/xboard/features/initialization/initialization.dart';
 
@@ -334,9 +334,9 @@ class ApplicationState extends ConsumerState<Application> {
       _autoUpdateGroupTaskTimer?.cancel();
       _autoUpdateProfilesTaskTimer?.cancel();
       
-      // 释放XBoard SDK资源
+      // 释放V2Board SDK资源
       try {
-        XBoardSDK.instance.dispose();
+        V2BoardSDK.instance.dispose();
       // ignore: empty_catches
       } catch (e) {
       }

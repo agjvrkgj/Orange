@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:fl_clash/xboard/config/xboard_config.dart';
 import 'package:fl_clash/xboard/config/utils/config_file_loader.dart';
-import 'package:flutter_xboard_sdk/flutter_xboard_sdk.dart';
+import 'package:flutter_v2board_sdk/flutter_v2board_sdk.dart';
 // 已从core/utils导出
 import 'package:fl_clash/xboard/core/core.dart';
 import 'package:fl_clash/xboard/infrastructure/infrastructure.dart';
@@ -34,11 +34,8 @@ class EncryptedSubscriptionService {
       _logger.info('从登录数据获取加密订阅');
 
       // 1. 获取订阅信息（注意：这里获取的是订阅数据，不是Auth Token）
-      final subscriptionData = await XBoardSDK.instance.subscription.getSubscription();
-      
-      if (subscriptionData == null) {
-        return SubscriptionResult.failure('未获取到订阅信息');
-      }
+      final subscriptionData = await V2BoardSDK.instance.subscription
+          .getSubscription();
 
       final subscribeUrl = subscriptionData.subscribeUrl;
       if (subscribeUrl == null || subscribeUrl.isEmpty) {

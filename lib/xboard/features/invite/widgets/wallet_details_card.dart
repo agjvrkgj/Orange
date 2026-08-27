@@ -4,7 +4,6 @@ import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/xboard/features/invite/providers/invite_provider.dart';
 import 'package:fl_clash/xboard/features/invite/widgets/stat_item_widget.dart';
 import 'package:fl_clash/xboard/features/invite/dialogs/transfer_dialog.dart';
-import 'package:fl_clash/xboard/features/invite/dialogs/withdraw_dialog.dart';
 
 class WalletDetailsCard extends ConsumerWidget {
   const WalletDetailsCard({super.key});
@@ -32,12 +31,6 @@ class WalletDetailsCard extends ConsumerWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    TextButton.icon(
-                      onPressed: () => _showWithdrawDialog(context),
-                      icon: const Icon(Icons.account_balance),
-                      label: const Text('提现'),
-                    ),
-                    const SizedBox(width: 8),
                     TextButton.icon(
                       onPressed: () => _showTransferDialog(context),
                       icon: const Icon(Icons.swap_horiz),
@@ -86,13 +79,6 @@ class WalletDetailsCard extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => const TransferDialog(),
-    );
-  }
-
-  void _showWithdrawDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const WithdrawDialog(),
     );
   }
 }

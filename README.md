@@ -5,7 +5,7 @@
 [![许可证](https://img.shields.io/github/license/chen08209/FlClash?style=flat-square)](LICENSE)
 [![Telegram群组](https://img.shields.io/badge/Telegram-加入群组-blue?style=flat-square&logo=telegram)](https://t.me/V2Hiidify)
 
-**基于 FlClash v0.8.85 的多平台代理客户端，深度集成全新 XBoard 面板支持**
+**基于 FlClash v0.8.85 的多平台代理客户端，深度集成 V2Board 面板支持**
 
 [English](README.md) | [简体中文](README_zh_CN.md)
 
@@ -15,13 +15,13 @@
 
 ## 📖 项目简介
 
-Orange 是基于 [FlClash v0.8.85](https://github.com/chen08209/FlClash) 的增强版本，深度集成了 **XBoard v20250905-b144770** 面板支持。本项目采用模块化设计理念，将所有 XBoard 相关功能封装在独立的 `lib/xboard` 模块中，最大限度减少与上游 FlClash 的代码冲突，便于后续跟进上游更新。
+Orange 是基于 [FlClash v0.8.85](https://github.com/chen08209/FlClash) 的增强版本，客户端接口对接 [`wyx2685/v2board`](https://github.com/wyx2685/v2board)。历史代码仍保留在 `lib/xboard` 模块路径中，以减少与上游 FlClash 的冲突；运行时后端已固定为 V2Board。
 
 ### 🎯 核心设计理念
 
 - **FlClash 作为 Core**：将原版 FlClash 视为核心依赖，所有定制功能均在独立模块中实现
 - **最小侵入式改动**：涉及原生 UI 修改时（如订阅组件），采用复制原实现并独立维护的方式
-- **SDK 化设计**：XBoard SDK 独立于 FlClash，可方便嵌入其他 Flutter 项目使用
+- **V2Board 对接**：登录、订阅、套餐和支付接口兼容 `wyx2685/v2board`（master `25ab8e081c3dbcdae365bbed558aff63695d4675`）
 - **更新友好**：最大限度减少 `git pull` 上游更新时的合并冲突问题
 
 ---
@@ -86,7 +86,7 @@ Orange 是基于 [FlClash v0.8.85](https://github.com/chen08209/FlClash) 的增�
 | [构建指南](docs/build-guide.md) | 完整的构建和运行环境配置 |
 | [配置文档](docs/configuration.md) | 完整的配置说明和示例 |
 | [核心特性](docs/features.md) | 详细的功能说明和使用方法 |
-| [服务端部署](docs/server-deployment.md) | XBoard 面板和 Caddy 反代配置 |
+| [服务端部署](docs/server-deployment.md) | V2Board 面板和 Caddy 反代配置 |
 | [安全配置](docs/security.md) | 证书、加密、混淆等安全配置 |
 | [文档中心](docs/README.md) | 所有文档的索引和导航 |
 
